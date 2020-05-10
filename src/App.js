@@ -1,61 +1,68 @@
-import React, { useState, useEffect } from 'react';
-import styled from '@emotion/styled';
-import Frase from './components/Frase';
+import React, { useState, useEffect } from "react";
+import styled from "@emotion/styled";
+import Quotes from "./components/Quotes";
+import Sound from "./components/Sound";
+import Logo from "./logo.svg";
 
-const Contenedor = styled.div`
+const Conteiner = styled.div`
   display: flex;
   align-items: center;
-  padding-top: 5rem;
+  padding-top: 1em;
   flex-direction: column;
-` ;
+`;
 
-const Boton = styled.button`
-  background: -webkit-linear-gradient(top left, #007d35 0%, #007d35 40%, #0f574e 100%);
-  background-size: 300px;
-  font-family:  Arial, Helvetica, sans-serif;
-  color: #fff;
-  margin-top: 3rem;
-  padding: 1rem 3rem;
-  font-size: 2rem;
-  border: 2px solid black;
-  transition: background-size .8s ease;
+const Button = styled.button`
+  border: none;
+  border-radius: 10px;
+  background-color: #f0d009;
+  font-family: Arial3rem, Helvetica, sans-serif;
+  margin-top: 1em;
+  padding: 1em 3em;
+  font-weight: bold;
+  transition: background-size 0.8s ease;
+  margin-bottom: 1em;
 
   :hover {
-    cursor:pointer;
-    background-size: 400px;
+    cursor: pointer;
+    background: #cbb008;
   }
 `;
 
+const LogoImg = styled.img`
+  width: 25%;
+`;
+
 function App() {
+  // State de Quotes
+  const [quotes, saveQuotes] = useState({});
 
-  // state de frases
-  const [frase, guardarFrase] = useState({});
+  // const consulAPI = () => {
+  //     const api = fetch("https://breaking-bad-quotes.herokuapp.com/v1/quotes");
 
+  //     const quotes = api.then((respuesta) => respuesta.json());
+  //     quotes.then((resultado) => console.log(resultado));
+  //   };
 
-  const consultarAPI = async () => {
-    const api = await fetch('https://breaking-bad-quotes.herokuapp.com/v1/quotes');
-    const frase = await api.json()
-    guardarFrase(frase[0]);
-  }
+  const consulAPI = async () => {
+    const api = await fetch("https://breakingbadapi.com/api/quote/random");
 
+    const quotes = await api.json();
+    saveQuotes(quotes[0]);
+  };
 
-  // Cargar una frase
-  useEffect( () => {
-    consultarAPI()
+  useEffect(() => {
+    consulAPI();
   }, []);
 
   return (
-    <Contenedor>
-      <Frase
-        frase={frase}
-      />
-
-      <Boton
-        onClick={consultarAPI}
-      >
-        Obtener Frase
-      </Boton>
-    </Contenedor>
+    <Conteiner>
+      <Sound />
+      <LogoImg src={Logo} alt="Logo" className="Logo" />
+      <Quotes quotes={quotes} />
+      <Button className="normal" onClick={consulAPI}>
+        Quotes
+      </Button>
+    </Conteiner>
   );
 }
 
