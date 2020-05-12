@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled from "@emotion/styled";
-import Audio from "./audio.mp3";
 import Play from "./Play";
 import Pause from "./Pause";
 
@@ -23,21 +22,11 @@ function Sound() {
 		}
 	};
 
-	const playAudio = () => {
-		const audioEl = document.getElementById("audio");
-		audioEl.play();
-		setPlay(true);
-		return;
-	};
-
-	useEffect(() => {
-		playAudio();
-	}, []);
 	return (
 		<ContainerSound>
 			{play === true ? <Play toogle={toogle} /> : <Pause toogle={toogle} />}
 			<audio id="audio" className="audio">
-				<source src={Audio} />
+				<source src="http://tonosmovil.net/wp-content/uploads/breaking_bad_intro.mp3" />
 			</audio>
 		</ContainerSound>
 	);
